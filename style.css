@@ -15,6 +15,9 @@ body {
     height: 15%;
     border: 2px solid black;
 }
+#inputRecord {
+    white-space: pre;
+}
 #keyContainer {
     position: absolute;
     border: 2px solid black;
@@ -34,10 +37,29 @@ body {
     flex-direction: column;    
 }
 .keypadRow {
-    border: 2px solid red;
+    border: 2px solid blue;
     flex: 1;
 }
 .keypadButton {
     height: 100%;
     width: 100%;
+    font-size: 200%;
+}
+#keyClear > button {
+    background-color: orange;
+}
+#keyEquals > button {
+    background-color: orange;
+}
+#keyPlus > button {
+    background-color: orange;
+}
+#keyMinus > button {
+    background-color: orange;
+}
+#keyMultiply > button {
+    background-color: orange;
+}
+#keyDivide > button {
+    background-color: orange;
 }
