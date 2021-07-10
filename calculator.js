@@ -97,6 +97,12 @@ function multiply(num1, num2){
     return num1 * num2;
 }
 function divide(num1, num2){
+    if (num2 === 0){
+        num1 = NaN;
+        num2 = NaN;
+        return 'Are you trying to break me?';
+    }
+
     return num1 / num2;
 }
 // add buttons to each keypad div
