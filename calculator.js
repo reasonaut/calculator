@@ -22,10 +22,10 @@ function keyPress(eventData){
         operand1 = NaN;
         operand2 = NaN;
         numbers = [];
+        previousKeyWasOperator = false;
     } else if (pressedKey === '='){
         if (previousKeyWasOperator) return;
         operand2 = parseInt(calcDisplayResult.innerText);
-        
         previousKeyWasOperator = true;
         equate();        
     } else {
