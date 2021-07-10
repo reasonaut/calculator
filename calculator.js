@@ -28,47 +28,56 @@ function keyPress(eventData){
         
         previousKeyWasOperator = true;
         equate();        
-    } else { // an operator is pressed
-        if (previousKeyWasOperator) return;
-        if (calcDisplayResult.innerText != '') {
-            previousKeyWasOperator = true;
-            // evaluate current calculation before changing operator to keyPress value
-            isNaN(operand1) ? operand1 = parseInt(calcDisplayResult.innerText) : 
-                operand2 = parseInt(calcDisplayResult.innerText);
-            calcDisplayInputRecord.innerText += `${calcDisplayResult.innerText} `;
-            if (!isNaN(operand1) && !isNaN(operand2) && operator != '') operate();
-            operator = pressedKey;
-            calcDisplayInputRecord.innerText += `${operator} `;
-            if (isNaN(operand2)) return;
-            operate();
-        } 
+    } else {
+        processOperator(pressedKey);
+    }
+}
+function processOperator(pressedKey){
+    if (previousKeyWasOperator){
+        // remove previous operator from record
+        var index = calcDisplayInputRecord.innerText.lastIndexOf(operator);
+        calcDisplayInputRecord.innerText = calcDisplayInputRecord.innerText.slice(0, index)
+            + `${pressedKey} `
+        operator = pressedKey;        
+        return;
+    }
+    if (calcDisplayResult.innerText != ''){
+        previousKeyWasOperator = true;
+        isNaN(operand1) ? operand1 = parseInt(calcDisplayResult.innerText) : 
+            operand2 = parseInt(calcDisplayResult.innerText);
+        calcDisplayInputRecord.innerText += `${calcDisplayResult.innerText} `;
+        // evaluate current calculation before updating operator to new keyPress value
+        if (!isNaN(operand1) && !isNaN(operand2) && operator != '') operate();
+        operator = pressedKey;
+        calcDisplayInputRecord.innerText += `${operator} `;
     }
 }
 function equate(){
     calcDisplayInputRecord.innerText += calcDisplayResult.innerText + ' = ';
     operate();
-    calcDisplayInputRecord.innerText += calcDisplayResult.innerText + '; ';
+    calcDisplayInputRecord.innerText += calcDisplayResult.innerText + ';  ';
     operator = '';
     operand1 = NaN;
     operand2 = NaN;
 }
-// todo: operate should return a value
 function operate(){
     if (operator === '+'){
-        const result = add(operand1, operand2);
-        console.log(operand1);
-        console.log(operand2);
-        calcDisplayResult.innerText = result;
-        operand1 = result;
-        operand2 = NaN;
+        handleResult(add(operand1, operand2));
     }
     if (operator === '-'){
-        const result = subtract(operand1, operand2);
-        calcDisplayResult.innerText = result;
+        handleResult(subtract(operand1, operand2));
+    }
+    if (operator === '*'){
+        handleResult(multiply(operand1, operand2));
+    }
+    if (operator === '/'){
+        handleResult(divide(operand1, operand2));
+    }
+}
+function handleResult(result){
+    calcDisplayResult.innerText = result;
         operand1 = result;
         operand2 = NaN;
-    }
-
 }
 // calc functions
 function add(num1, num2){
