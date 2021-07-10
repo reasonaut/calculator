@@ -8,7 +8,7 @@ body {
     position: relative;    
 }
 h2 {
-    font-size: 2.7vmin;
+    font-size: 2.5vmin;
     padding: 0px;
     margin: 0px;
     font-weight: normal;
@@ -32,7 +32,7 @@ h2 {
 
 }
 #calcDisplay div {    
-    font-size: 2.7vmin;
+    font-size: 2.5vmin;
     text-align: center;
     width: 100%;
     height: 50%;

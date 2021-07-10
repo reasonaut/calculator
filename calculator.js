@@ -14,6 +14,8 @@ function keyPress(eventData){
     if (parseInt(pressedKey) <= 9){
         if (previousKeyWasOperator) calcDisplayResult.innerText = '';
         calcDisplayResult.innerText += pressedKey;
+        if (calcDisplayResult.innerText.length === 30)
+            calcDisplayResult.innerText = calcDisplayResult.innerText.substring(1);
         previousKeyWasOperator = false;
         return;     
     } else if (pressedKey === 'C'){
@@ -25,6 +27,7 @@ function keyPress(eventData){
         previousKeyWasOperator = false;
     } else if (pressedKey === '='){
         if (previousKeyWasOperator) return;
+        if (isNaN(operand1)) return;
         operand2 = parseInt(calcDisplayResult.innerText);
         previousKeyWasOperator = true;
         equate();        
@@ -35,10 +38,12 @@ function keyPress(eventData){
 function processOperator(pressedKey){
     if (previousKeyWasOperator){
         // remove previous operator from record
-        var index = calcDisplayInputRecord.innerText.lastIndexOf(operator);
-        calcDisplayInputRecord.innerText = calcDisplayInputRecord.innerText.slice(0, index)
-            + `${pressedKey} `
-        operator = pressedKey;        
+        if (calcDisplayResult === ''){
+            var index = calcDisplayInputRecord.innerText.lastIndexOf(operator);
+            calcDisplayInputRecord.innerText = 
+                calcDisplayInputRecord.innerText.slice(0, index) + `${pressedKey} `
+        }
+        operator = pressedKey;
         return;
     }
     if (calcDisplayResult.innerText != ''){
@@ -56,6 +61,8 @@ function equate(){
     calcDisplayInputRecord.innerText += calcDisplayResult.innerText + ' = ';
     operate();
     calcDisplayInputRecord.innerText += calcDisplayResult.innerText + ';  ';
+    if (calcDisplayInputRecord.innerText.length > 58)
+    calcDisplayInputRecord.innerText = '...' + calcDisplayInputRecord.innerText.substring(calcDisplayInputRecord.innerText.length - 61);
     operator = '';
     operand1 = NaN;
     operand2 = NaN;
